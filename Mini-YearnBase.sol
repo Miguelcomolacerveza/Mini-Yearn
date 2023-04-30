@@ -38,6 +38,8 @@ contract MiniYearn {
     error IncorrectAmount();
     error NotOwnership();
     error NotEnoughFunds();
+    
+    event DepositDone();
 
     function deposit() public payable {
         if(msg.value == 0) revert IncorrectAmount();
@@ -51,7 +53,7 @@ contract MiniYearn {
 
         IEthGateway(ethGateway).depositETH{value:msg.value}(ethGateway, msg.sender, 0);
 
-        emit Ok();
+        emit DepositDone();
 
         //To be continued...
     }
