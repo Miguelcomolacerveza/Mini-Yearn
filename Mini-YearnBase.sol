@@ -43,7 +43,7 @@ contract MiniYearn {
 
     function deposit() public payable {
         if(msg.value == 0) revert IncorrectAmount();
-        if(msg.value < 1 ether) revert NotEnoughFunds();
+        if(msg.value < 10 ether) revert NotEnoughFunds();
 
         Deposits storage deposits = usersDeposit[msg.sender];
         deposits.amount = msg.value;
