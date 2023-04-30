@@ -22,6 +22,11 @@ contract MiniYearn {
         if(msg.sender!=owner) revert NoOwnership();
         _;
     }
+    
+    error IncorrectAmount();
+    error NoOwnership();
+    error NotEnoughFunds();
+
 
     /**
       * @ param amount: Amount of the deposit the user have done to Mini-tearn
