@@ -1,4 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.19;
 
 // Loading Mini-Yearn Contract....
@@ -19,14 +18,9 @@ contract MiniYearn {
     }
 
     modifier onlyOwner {
-        if(msg.sender!=owner) revert NoOwnership();
+        if(msg.sender!=owner) revert NotOwnership();
         _;
     }
-    
-    error IncorrectAmount();
-    error NoOwnership();
-    error NotEnoughFunds();
-
 
     /**
       * @ param amount: Amount of the deposit the user have done to Mini-tearn
@@ -47,7 +41,7 @@ contract MiniYearn {
 
     function deposit() public payable {
         if(msg.value == 0) revert IncorrectAmount();
-        if(msg.value < 10 ether) revert NotEnoughFunds();
+        if(msg.value < 1 ether) revert NotEnoughFunds();
 
         Deposits storage deposits = usersDeposit[msg.sender];
         deposits.amount = msg.value;
@@ -56,8 +50,28 @@ contract MiniYearn {
         address ethGateway = 0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9;
 
         IEthGateway(ethGateway).depositETH{value:msg.value}(ethGateway, msg.sender, 0);
-        
+
+        emit Ok();
+
         //To be continued...
     }
+
+    function depositUsingParameter(uint) public payable {
+        if(msg.value == 0) revert IncorrectAmount();
+        if(msg.value < 1 ether) revert NotEnoughFunds();
+
+        Deposits storage deposits = usersDeposit[msg.sender];
+        deposits.amount = msg.value;
+        deposits.depositsDate = block.timestamp;
+
+        address ethGateway = 0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9;
+
+        IEthGateway(ethGateway).depositETH{value:msg.value}(ethGateway, msg.sender, 0);
+
+        emit Ok();
+
+        //To be continued...
+    }
+
 
 }
