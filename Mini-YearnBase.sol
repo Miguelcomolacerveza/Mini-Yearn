@@ -18,7 +18,7 @@ contract MiniYearn {
     }
 
     modifier onlyOwner {
-        if(msg.sender!=owner) revert NotOwnership();
+        if(msg.sender!=owner) revert NoOwnership();
         _;
     }
 
@@ -36,7 +36,7 @@ contract MiniYearn {
     mapping(address => Deposits) usersDeposit;
  
     error IncorrectAmount();
-    error NotOwnership();
+    error NoOwnership();
     error NotEnoughFunds();
     
     event DepositDone();
