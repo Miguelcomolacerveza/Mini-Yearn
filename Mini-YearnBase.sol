@@ -23,7 +23,7 @@ contract MiniYearn {
     }
 
     /**
-      * @ param amount: Amount of the deposit the user have done to Mini-tearn
+      * @ param amount: Amount of the deposit users have done to Mini-yearn
       * @ param depositsDate: Datetime of the deposit
       * @ mapping UsersDeposit: takes into account the balances of Mini-Yearn´s Users
     */
