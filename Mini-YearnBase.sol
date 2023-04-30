@@ -19,7 +19,7 @@ contract MiniYearn {
     }
 
     modifier onlyOwner {
-        if(msg.sender!=owner) revert NotOwnership();
+        if(msg.sender!=owner) revert NoOwnership();
         _;
     }
 
