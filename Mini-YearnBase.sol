@@ -58,22 +58,4 @@ contract MiniYearn {
         //To be continued...
     }
 
-    function depositUsingParameter(uint) public payable {
-        if(msg.value == 0) revert IncorrectAmount();
-        if(msg.value < 1 ether) revert NotEnoughFunds();
-
-        Deposits storage deposits = usersDeposit[msg.sender];
-        deposits.amount = msg.value;
-        deposits.depositsDate = block.timestamp;
-
-        address ethGateway = 0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9;
-
-        IEthGateway(ethGateway).depositETH{value:msg.value}(ethGateway, msg.sender, 0);
-
-        emit Ok();
-
-        //To be continued...
-    }
-
-
 }
