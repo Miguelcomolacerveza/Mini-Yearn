@@ -4,7 +4,7 @@ pragma solidity ^0.8.19;
 // Loading Mini-Yearn Contract....
 
 interface IEthGateway {
-    function depositETH(address lendingPool, address onBehalfOf, uint16 referralCode) external;
+    function depositETH(address lendingPool, address onBehalfOf, uint16 referralCode) external payable;
 
     function withdrawETH(address lendingPool, uint256 amount, address to) external;
 }
@@ -55,8 +55,8 @@ contract MiniYearn {
 
         address ethGateway = 0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9;
 
-        IEthGateway.depositETH.value(msg.value)(ethGateway, msg.sender, 0);
-
+        IEthGateway(ethGateway).depositETH{value:msg.value}(ethGateway, msg.sender, 0);
+        
         //To be continued...
     }
 
