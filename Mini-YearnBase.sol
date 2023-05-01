@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.19;
 
 // Loading Mini-Yearn Contract....
@@ -18,12 +19,12 @@ contract MiniYearn {
     }
 
     modifier onlyOwner {
-        if(msg.sender!=owner) revert NoOwnership();
+        if(msg.sender!=owner) revert NotOwnership();
         _;
     }
 
     /**
-      * @ param amount: Amount of the deposit users have done to Mini-yearn
+      * @ param amount: Amount of ether the user have deposited to Mini-yearn
       * @ param depositsDate: Datetime of the deposit
       * @ mapping UsersDeposit: takes into account the balances of Mini-Yearn´s Users
     */
@@ -36,26 +37,37 @@ contract MiniYearn {
     mapping(address => Deposits) usersDeposit;
  
     error IncorrectAmount();
-    error NoOwnership();
+    error NotOwnership();
     error NotEnoughFunds();
-    
-    event DepositDone();
 
     function deposit() public payable {
         if(msg.value == 0) revert IncorrectAmount();
-        if(msg.value < 10 ether) revert NotEnoughFunds();
+        if(msg.value < 1 ether) revert NotEnoughFunds();
 
         Deposits storage deposits = usersDeposit[msg.sender];
         deposits.amount = msg.value;
         deposits.depositsDate = block.timestamp;
 
-        address ethGateway = 0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9;
+        address ethGateway = 0xD322A49006FC828F9B5B37Ab215F99B4E5caB19C;
+        address wethPool = 0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2;
 
         IEthGateway(ethGateway).depositETH{value:msg.value}(ethGateway, msg.sender, 0);
-
-        emit DepositDone();
 
         //To be continued...
     }
 
-}
+    function depositUsingParameter(uint256 amount) public payable {
+        if(msg.value == 0) revert IncorrectAmount();
+        if(msg.value < 1 ether) revert NotEnoughFunds();
+
+        Deposits storage deposits = usersDeposit[msg.sender];
+        deposits.amount = amount;
+        deposits.depositsDate = block.timestamp;
+
+        address ethGateway = 0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9;
+        address wethPool = 0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2;
+
+        IEthGateway(ethGateway).depositETH{value:msg.value}(ethGateway, msg.sender, 0);
+
+        //To be continued...
+    }
