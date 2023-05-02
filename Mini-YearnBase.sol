@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.0;
+
+import "../interfaces/IERC20.sol";
 
 // Loading Mini-Yearn Contract....
 
@@ -40,7 +42,7 @@ contract MiniYearn {
     error NotOwnership();
     error NotEnoughFunds();
 
-    function deposit() public payable {
+    function setDeposit() public payable {
         if(msg.value == 0) revert IncorrectAmount();
         if(msg.value < 1 ether) revert NotEnoughFunds();
 
@@ -51,23 +53,20 @@ contract MiniYearn {
         address ethGateway = 0xD322A49006FC828F9B5B37Ab215F99B4E5caB19C;
         address wethPool = 0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2;
 
-        IEthGateway(ethGateway).depositETH{value:msg.value}(ethGateway, msg.sender, 0);
+
+        //0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8 V3 aWeth Token Contract
+
+        IEthGateway(ethGateway).depositETH{value:msg.value}(wethPool, address(this), 0);
 
         //To be continued...
     }
 
-    function depositUsingParameter(uint256 amount) public payable {
-        if(msg.value == 0) revert IncorrectAmount();
-        if(msg.value < 1 ether) revert NotEnoughFunds();
-
-        Deposits storage deposits = usersDeposit[msg.sender];
-        deposits.amount = amount;
-        deposits.depositsDate = block.timestamp;
-
-        address ethGateway = 0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9;
-        //address wethPool = 0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2;
-
-        IEthGateway(ethGateway).depositETH{value:msg.value}(ethGateway, msg.sender, 0);
-
-        //To be continued...
+    function getBalance(address _user) public view returns(uint) {
+        return usersDeposit[_user].amount;
     }
+
+
+    function checkAwethBalance(IERC20 _token) public view returns (uint256) {
+        return IERC20(_token).balanceOf(address(this));
+    }
+}
