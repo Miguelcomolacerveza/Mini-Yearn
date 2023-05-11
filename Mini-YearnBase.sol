@@ -5,7 +5,8 @@ pragma solidity ^0.8.0;
     Benefits of using Mini-Yearn Token
         - Open position with this token
         - Don´t waste time re-programming this contract, just use the token
-        
+        - Variety of utilities
+
     Useful info (Aave v3):
         - address ethGateway = 0xD322A49006FC828F9B5B37Ab215F99B4E5caB19C;
         - address wethPool = 0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2;
@@ -303,11 +304,11 @@ contract MiniYearn is ERC20 {
         );
         _burn(msg.sender, amount); // We burn Mini-yearn token and delete them from the user (sender).
     }
-
+/*
     function getBalance(address _user) public view returns(uint) {
         return usersDeposit[_user].amount;
     }
-
+*/
     /* In order to see the aWeth balances, we need two addresses
           1.-The aWeth´s address
           2.-The address that we want to see the balance, in this case the address of this contract. 
@@ -330,7 +331,7 @@ contract MiniYearn is ERC20 {
         return IERC20(0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8).balanceOf(address(this));
     }
 
-     // getMiniYearnPrice() -> calculates the value of each Mini-Yearn    
+     // getAtokenBalance -> calculates the value of each Mini-Yearn    
     function getMiniYearnPrice() public view returns(uint) {
         uint256 miniYearnPrice = (getAtokenBalance() * 1e18) / totalSupply;
         return miniYearnPrice;
