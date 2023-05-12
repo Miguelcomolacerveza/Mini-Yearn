@@ -317,16 +317,15 @@ contract MiniYearn is ERC20 {
         return IERC20(_token).balanceOf(address(this));
     }
 
-    // To get the price of Mini-Yearn the amount of Mini-Yearn divided by the total supply.
+    // To get the price of Mini-Yearn we use the amount of Mini-Yearn divided by the total supply.
     // We must use 1e18 to take into account all the decimals otherwise the value returned would be smaller.
-    // Total suplply comes from ERC20 Contract
+    // totalSupply comes from ERC20 Contract
     
     function getPrice() public view returns(uint256) {
         return IERC20(0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8).balanceOf(address(this)) * 1e18 / totalSupply;
     }
 
     // getAtokenBalance -> gets the total amount of aWeth balance in this contract
-
     function getAtokenBalance() public view returns(uint) {
         return IERC20(0x4d5F47FA6A74757f35C14fD3a6Ef8E3C9BC514E8).balanceOf(address(this));
     }
